@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME</H3> Sanjay S
+<H3>ENTER YOUR REGISTER NO.</H3> 212223040184
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE:</H3> 28.04.2025
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -96,7 +96,6 @@ In the backward pass,
 ![image](https://user-images.githubusercontent.com/112920679/198814362-05a251fd-fceb-43cd-867b-75e6339d870a.png)
 
 <H3>Algorithm:</H3>
-
 1. Import the necessary libraries of python.
 
 2. After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
@@ -116,11 +115,137 @@ Normalize our dataset.
 
 <H3>Program:</H3> 
 
-Insert your code here
+```
+
+import pandas as pd
+
+import sklearn
+
+from sklearn import preprocessing
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.neural_network import MLPClassifier
+
+from sklearn.metrics import classification_report, confusion_matrix
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+
+names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
+
+irisdata = pd.read_csv(url, names=names)
+
+#Takes first 4 columns and assign them to variable "X"
+
+X = irisdata.iloc[:, 0:4]
+
+#Takes first 5th columns and assign them to variable "Y". Object dtype refers to strings.
+
+y = irisdata.select_dtypes(include=[object])
+
+X.head()
+
+y.head()
+
+#y actually contains all categories or classes:
+
+y.Class.unique()
+
+#Now transforming categorial into numerical values
+
+le = preprocessing.LabelEncoder()
+
+y = y.apply(le.fit_transform)
+
+y.head()
+
+#Now for train and test split (80% of  dataset into  training set and  other 20% into test data)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+
+#Feature scaling
+
+scaler = StandardScaler()
+
+scaler.fit(X_train)
+
+X_train = scaler.transform(X_train)
+
+X_test = scaler.transform(X_test)
+
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)
+
+mlp.fit(X_train, y_train.values.ravel())
+
+predictions = mlp.predict(X_test)
+
+print(predictions)
+
+#Last thing: evaluation of algorithm performance in classifying flowers
+
+print(confusion_matrix(y_test,predictions))
+
+print(classification_report(y_test,predictions))
+
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.neural_network import MLPClassifier
+
+from sklearn.metrics import classification_report
+
+from sklearn.metrics import confusion_matrix
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+
+arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
+
+df = pd.read_csv(url, names=arr)
+
+print(df.head())
+
+a = df.iloc[:, 0:4]
+
+b = df.select_dtypes(include=[object])
+
+b = df.iloc[:,4:5]
+
+training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
+
+myscaler = StandardScaler()
+
+myscaler.fit(training_a)
+
+training_a = myscaler.transform(training_a)
+
+testing_a = myscaler.transform(testing_a)
+
+m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
+
+m1.fit(training_a, training_b.values.ravel())
+
+
+predicted_values = m1.predict(testing_a)
+
+print(confusion_matrix(testing_b,predicted_values))
+
+print(classification_report(testing_b,predicted_values))
+
+```
 
 <H3>Output:</H3>
 
-Show your results here
+![Screenshot 2025-04-22 194823](https://github.com/user-attachments/assets/5f628997-603c-405d-95ea-8ea1b2e64ac0)
+
+![Screenshot 2025-04-22 194910](https://github.com/user-attachments/assets/9b2711ba-a9cb-40e2-9cf6-aedf59843cc2)
+
+
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
